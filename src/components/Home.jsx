@@ -7,7 +7,7 @@ import {
   delete_todo,
   load_todos
 } from "../store/actionCreators";
-import Form from "./Form";
+import AddTodoForm from "./AddTodoForm";
 import TodoList from "./TodoList";
 
 const Home = () => {
@@ -22,7 +22,7 @@ const Home = () => {
   const importanceHandler = id => dispatch(change_importance(id));
   return (
     <>
-      <Form submit={submitHandler} />
+      <AddTodoForm submit={submitHandler} />
       <TodoList
         todos={todos}
         remove={removeHandler}

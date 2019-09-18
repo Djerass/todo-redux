@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Input, FormControl, FormHelperText } from "@material-ui/core";
 
-const Form = ({ submit }) => {
+const AddTodoForm = ({ submit }) => {
   const [text, setText] = useState("");
   const [error, setError] = useState(false);
   const submitHandler = e => {
@@ -37,4 +37,4 @@ const Form = ({ submit }) => {
   );
 };
 
-export default Form;
+export default AddTodoForm;
