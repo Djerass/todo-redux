@@ -13,6 +13,7 @@ const add_todo = (id, text, date) => ({
   text,
   date
 });
+
 const remove_todo = id => ({ type: REMOVE_TODO, id });
 const swap_importance = id => ({ type: SWAP_IMPORTANCE, id });
 const swap_completed = id => ({ type: SWAP_COMPLETED, id });

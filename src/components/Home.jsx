@@ -11,7 +11,7 @@ import AddTodoForm from "./AddTodoForm";
 import TodoList from "./TodoList";
 
 const Home = () => {
-  const todos = useSelector(state => state.todos);
+  const todos = useSelector(state => state.todoReducer.todos);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(load_todos());

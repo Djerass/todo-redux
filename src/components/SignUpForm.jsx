@@ -1,11 +1,8 @@
-import React, { useRef } from "react";
-import {
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  Button
-} from "@material-ui/core/";
+import React, { useState } from "react";
+import { Button, Typography, Box } from "@material-ui/core/";
+import InputAuth from "./InputAuth";
 import { makeStyles } from "@material-ui/core/styles";
+import * as validator from "../validator/validator";
 
 const styles = makeStyles(() => ({
   form: {
@@ -16,86 +13,92 @@ const styles = makeStyles(() => ({
   },
   item: {
     margin: "1rem 0 0 0"
+  },
+  button: {
+    maxWidth: "50%",
+    margin: "1rem auto"
   }
 }));
 
 const SignUpForm = () => {
   const classes = styles();
-  const [labelWidthEmail, setlabelWidthEmail] = React.useState(0);
-  const [labelWidthPassword, setlabelWidthPassword] = React.useState(0);
-  const [
-    labelWidthConfirmPassword,
-    setlabelWidthConfirmPassword
-  ] = React.useState(0);
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
-  const labelRefEmail = useRef(null);
-  const labelRefPassword = useRef(null);
-  const labelRefConfirmfPassword = useRef(null);
-  React.useEffect(() => {
-    setlabelWidthEmail(labelRefEmail.current.offsetWidth);
-    setlabelWidthPassword(labelRefPassword.current.offsetWidth);
-    setlabelWidthConfirmPassword(labelRefConfirmfPassword.current.offsetWidth);
-  }, []);
+  // Email input
+  const [emailError, setEmailError] = useState("");
+  const [email, setEmail] = useState("");
+  // Password input
+  const [passwordError, setPasswordError] = useState("");
+  const [password, setPassword] = useState("");
+  // Confirm password input
+  const [confirmError, setConfirmError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const submitHandler = e => {
     e.preventDefault();
-    if (email && password && confirmPassword && confirmPassword === password) {
-      console.log(email, password, confirmPassword);
+    setConfirmError("");
+    setPasswordError("");
+    setEmailError("");
+    if (
+      validator.isEmail(email, setEmailError) &
+      validator.isPassword(password, setPasswordError) &
+      validator.isEqual(password, confirmPassword, setConfirmError)
+    ) {
+      console.log(email, password);
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
     }
   };
   return (
-    <form className={classes.form} onSubmit={e => submitHandler(e)}>
-      <FormControl variant="outlined" className={classes.item}>
-        <InputLabel htmlFor="component-outlined" ref={labelRefEmail}>
-          Email
-        </InputLabel>
-        <OutlinedInput
-          id="component-outlined"
+    <>
+      <Typography component="div" className={classes.item}>
+        <Box textAlign="center" m={1}>
+          {emailError}
+        </Box>
+        <Box textAlign="center" m={1}>
+          {passwordError}
+        </Box>
+        <Box textAlign="center" m={1}>
+          {confirmError}
+        </Box>
+      </Typography>
+      <form className={classes.form} onSubmit={e => submitHandler(e)}>
+        <InputAuth
+          styleClass={classes.item}
+          change={setEmail}
           value={email}
-          labelWidth={labelWidthEmail}
-          placeholder="Your Email"
-          onChange={e => setEmail(e.target.value)}
+          label="Email"
+          placeholder="Enter your email"
+          errorText={emailError}
+          type="email"
         />
-      </FormControl>
-      <FormControl variant="outlined" className={classes.item}>
-        <InputLabel htmlFor="component-outlined2" ref={labelRefPassword}>
-          Password
-        </InputLabel>
-        <OutlinedInput
-          id="component-outlined2"
+        <InputAuth
+          styleClass={classes.item}
+          change={setPassword}
           value={password}
-          labelWidth={labelWidthPassword}
-          placeholder="Your Password"
+          label="Password"
+          placeholder="Enter your password"
+          errorText={passwordError}
           type="password"
-          onChange={e => setPassword(e.target.value)}
         />
-      </FormControl>
-      <FormControl variant="outlined" className={classes.item}>
-        <InputLabel
-          htmlFor="component-outlined3"
-          ref={labelRefConfirmfPassword}
-        >
-          Confirm Pasword
-        </InputLabel>
-        <OutlinedInput
-          id="component-outlined3"
+        <InputAuth
+          styleClass={classes.item}
+          change={setConfirmPassword}
           value={confirmPassword}
-          labelWidth={labelWidthConfirmPassword}
-          placeholder="Your Password"
+          label="Confirm password"
+          placeholder="Confirm your password"
+          errorText={confirmError}
           type="password"
-          onChange={e => setConfirmPassword(e.target.value)}
         />
-      </FormControl>
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        className={classes.button}
-      >
-        Primary
-      </Button>
-    </form>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          className={`${classes.button}`}
+        >
+          Sign up
+        </Button>
+      </form>
+    </>
   );
 };
 
