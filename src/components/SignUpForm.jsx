@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Typography, Box } from "@material-ui/core/";
 import InputAuth from "./InputAuth";
 import { makeStyles } from "@material-ui/core/styles";
 import * as validator from "../validator/validator";
+import { sign_up } from "../store/actionCreators";
+import spinner from "../images/spinner.gif";
 
 const styles = makeStyles(() => ({
   form: {
@@ -20,8 +23,12 @@ const styles = makeStyles(() => ({
   }
 }));
 
-const SignUpForm = () => {
+const SignUpForm = ({ history }) => {
   const classes = styles();
+  const dispatch = useDispatch();
+  const error = useSelector(state => state.authReducer.error);
+  const loading = useSelector(state => state.authReducer.loading);
+
   // Email input
   const [emailError, setEmailError] = useState("");
   const [email, setEmail] = useState("");
@@ -31,7 +38,7 @@ const SignUpForm = () => {
   // Confirm password input
   const [confirmError, setConfirmError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  if (loading) return <img src={spinner} alt="Loading..." />;
   const submitHandler = e => {
     e.preventDefault();
     setConfirmError("");
@@ -42,7 +49,7 @@ const SignUpForm = () => {
       validator.isPassword(password, setPasswordError) &
       validator.isEqual(password, confirmPassword, setConfirmError)
     ) {
-      console.log(email, password);
+      dispatch(sign_up(email, password, () => history.push("/login")));
       setEmail("");
       setPassword("");
       setConfirmPassword("");
@@ -51,6 +58,9 @@ const SignUpForm = () => {
   return (
     <>
       <Typography component="div" className={classes.item}>
+        <Box textAlign="center" m={1}>
+          {error}
+        </Box>
         <Box textAlign="center" m={1}>
           {emailError}
         </Box>

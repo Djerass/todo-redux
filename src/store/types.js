@@ -10,3 +10,4 @@ export const START_SIGN_UP = "START_SIGN_UP";
 export const SIGN_UP = "SIGN_UP";
 export const SIGN_UP_SUCCESS = "SING_UP_SUCCESS";
 export const SIGN_UP_FAILED = "SING_UP_FAILED";
+export const CLEAR_MESSAGE = "CLEAR_MESSAGE";

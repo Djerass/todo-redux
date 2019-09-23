@@ -1,10 +1,16 @@
-import { START_SIGN_UP, SIGN_UP_SUCCESS, SIGN_UP_FAILED } from "./types";
+import {
+  START_SIGN_UP,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAILED,
+  CLEAR_MESSAGE
+} from "./types";
 
 const initialState = {
   idToken: null,
   refreshToken: null,
   loading: false,
-  error: null
+  error: null,
+  message: null
 };
 
 const authReducer = (state = initialState, action) => {
@@ -12,21 +18,30 @@ const authReducer = (state = initialState, action) => {
     case START_SIGN_UP:
       return {
         ...state,
-        loading: true
+        loading: true,
+        error: null,
+        message: null
       };
     case SIGN_UP_SUCCESS:
       return {
-        idToken: action.idToken,
-        refreshToken: action.refreshToken,
+        ...state,
         loading: false,
-        error: null
+        error: null,
+        message: "SignUp successful. Use Email & Password for sign in"
       };
     case SIGN_UP_FAILED: {
       return {
         idToken: null,
         refreshToken: null,
         loading: false,
-        errror: action.errror
+        error: action.error,
+        message: ""
+      };
+    }
+    case CLEAR_MESSAGE: {
+      return {
+        ...state,
+        message: null
       };
     }
     default:
