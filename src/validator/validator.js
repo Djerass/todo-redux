@@ -24,6 +24,14 @@ export const isPassword = (value, cb) => {
   return true;
 };
 
+export const isEmpty = (value, message, cb) => {
+  if (validator.isEmpty(value)) {
+    cb(message);
+    return false;
+  }
+  return true;
+};
+
 export const isEqual = (value1, value2, cb) => {
   if (!validator.equals(value1, value2)) {
     cb("Passwords does not match");

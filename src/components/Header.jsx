@@ -1,9 +1,9 @@
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+import { Typography, Box, Button } from "@material-ui/core/";
+import { useSelector } from "react-redux";
 import { Link as NavLink } from "react-router-dom";
-import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
@@ -20,26 +20,46 @@ const useStyles = makeStyles(() => ({
 
 const Header = () => {
   const classes = useStyles();
+  const email = useSelector(state => state.authReducer.email);
+  let left;
+  if (email) {
+    left = (
+      <div className={classes.flexContainer}>
+        <Typography variant="h6">
+          <Box textAlign="center" m={1}>
+            {email}
+          </Box>
+        </Typography>
+        <Button style={{ color: "#ffffff" }} className={classes.button}>
+          Logout
+        </Button>
+      </div>
+    );
+  } else {
+    left = (
+      <div className={classes.flexContainer}>
+        <Button to="/register" className={classes.root} component={NavLink}>
+          Register
+        </Button>
+        <Button to="/login" className={classes.root} component={NavLink}>
+          Login
+        </Button>
+      </div>
+    );
+  }
   return (
     <AppBar position="static">
       <Toolbar className={classes.flexContainer}>
         <div className={classes.flexContainer}>
           <Typography variant="h6">Todo</Typography>
-          <Link to="/" className={classes.root} component={NavLink}>
+          <Button to="/" className={classes.root} component={NavLink}>
             Home
-          </Link>
-          <Link to="/about" className={classes.root} component={NavLink}>
+          </Button>
+          <Button to="/about" className={classes.root} component={NavLink}>
             About
-          </Link>
+          </Button>
         </div>
-        <div className={classes.flexContainer}>
-          <Link to="/register" className={classes.root} component={NavLink}>
-            Register
-          </Link>
-          <Link to="/login" className={classes.root} component={NavLink}>
-            Login
-          </Link>
-        </div>
+        {left}
       </Toolbar>
     </AppBar>
   );
