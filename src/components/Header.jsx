@@ -2,9 +2,10 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { Typography, Box, Button } from "@material-ui/core/";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link as NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import { logout } from "../store/actionCreators";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -21,6 +22,7 @@ const useStyles = makeStyles(() => ({
 const Header = () => {
   const classes = useStyles();
   const email = useSelector(state => state.authReducer.email);
+  const dispatch = useDispatch();
   let left;
   if (email) {
     left = (
@@ -30,7 +32,11 @@ const Header = () => {
             {email}
           </Box>
         </Typography>
-        <Button style={{ color: "#ffffff" }} className={classes.button}>
+        <Button
+          style={{ color: "#ffffff" }}
+          className={classes.button}
+          onClick={() => dispatch(logout())}
+        >
           Logout
         </Button>
       </div>
