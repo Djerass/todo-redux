@@ -25,7 +25,7 @@ const TodoList = ({ todos, remove, complete, important }) => {
             <IconButton
               edge="start"
               aria-label="delete"
-              onClick={() => important(todo.id)}
+              onClick={() => important(todo.id, todo.fireId, !todo.important)}
             >
               <Avatar
                 style={{
@@ -43,15 +43,15 @@ const TodoList = ({ todos, remove, complete, important }) => {
               textDecoration: lineThrough(todo.completed),
               cursor: "pointer"
             }}
-            onClick={() => complete(todo.id)}
+            onClick={() => complete(todo.id, todo.fireId, !todo.completed)}
             primary={todo.text}
-            secondary={secondary ? todo.date.toLocaleString() : null}
+            secondary={secondary ? `${todo.date.toLocaleString()}` : null}
           />
           <ListItemSecondaryAction>
             <IconButton
               edge="end"
               aria-label="delete"
-              onClick={() => remove(todo.id)}
+              onClick={() => remove(todo.id, todo.fireId)}
             >
               <DeleteIcon />
             </IconButton>

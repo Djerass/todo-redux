@@ -15,16 +15,7 @@ const todoReducer = (state = initialState, action) => {
     case ADD_TODO:
       return {
         ...state,
-        todos: [
-          ...state.todos,
-          {
-            id: action.id,
-            text: action.text,
-            completed: false,
-            important: false,
-            date: action.date
-          }
-        ]
+        todos: [...state.todos, action.todo]
       };
     case REMOVE_TODO:
       return {
